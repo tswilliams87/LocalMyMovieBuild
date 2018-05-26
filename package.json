@@ -1,0 +1,17 @@
+{
+  "name": "mymovielocal",
+  "version": "1.1.2",
+  "description": "local build",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "^2.6.1",
+    "express": "*",
+    "express-validator": "^5.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "todd williams",
+  "license": "ISC"
+}

@@ -1,0 +1,37 @@
+
+<% include partials/header %>
+	<h1> Find My Movie</h1>
+	
+	
+		
+
+	
+	<% if(errors){ %>
+	<ul>
+		<% errors.forEach(function(error){ %>
+			<li><%= error %></li>
+		<% }) %>
+	</ul>
+
+
+
+
+
+<% } %>
+</ul>
+	<form method="POST" action="/users/add">
+		<label> My Movie </label><br>
+		<input type="text" name="myMovie">
+		<br>
+		<label> My Zipcode </label><br>
+		<input type="text" name="zipCode">
+		<br>
+		<label> My email</label><br>
+		<input type="text" name="email">
+		<br><br>
+		<input type="submit" value="Submit">
+
+		<h1><%= title %> </h1>
+		
+
+<% include partials/footer %>
