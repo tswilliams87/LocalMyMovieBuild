@@ -7,7 +7,8 @@
     "body-parser": "*",
     "ejs": "^2.6.1",
     "express": "*",
-    "express-validator": "^5.2.0"
+    "express-validator": "^5.2.0",
+    "mongojs": "^2.5.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

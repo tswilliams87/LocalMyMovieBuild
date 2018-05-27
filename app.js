@@ -95,15 +95,15 @@ app.post('/users/add',function(req,res){
 	
 	var errors = check('myMovie','required').isEmpty()
 	//console.log(errors.exists)
-	if (errors.exists >-1) {
+	//NEEDS FURTHER WORK
+	if (req.body.errors) {
 		res.render('index', {
 			title: 'Movies',
-			myMovie : myMovie,
-			
-
-
-
+			myMovie : 'error'
 		})
+
+
+		
 
 
 
