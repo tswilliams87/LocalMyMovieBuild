@@ -1,7 +1,8 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
-
+var mongojs = require('mongojs')
+var db = mongojs('customerapp', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
 
@@ -79,13 +80,18 @@ app.use(function(req,res,next){
 
 app.get('/',function(req,res){
 	 
-
+//reaching into database and rendering docs as well. 
+	 db.users.find(function(err, docs){
+	 	console.log(docs)
+	
 	res.render('index', {
 		//passing variables into the index.ejs file
 		title :'customers',
 		//when using uses you will have to un comment the array above for users
-		//users: users
-	});
+		users: docs
+	})
+	 	// areays
+	 });
 });
 
 const { check } = require('express-validator/check');
@@ -120,7 +126,20 @@ app.post('/users/add',function(req,res){
 
 
 	}
-	console.log('success')
+	db.users.insert(newUser, function(err,res){
+		if (err) {
+
+			console.log(err + ' Database error ')
+		}
+		//res.redirect is not found
+		res.redirect('http://localhost');
+
+
+		//res.redirect('/')
+
+
+	});
+	console.log('success database written')
 
 	}
 
@@ -129,7 +148,7 @@ app.post('/users/add',function(req,res){
 	
 
 	console.log(newUser)
-})
+});
 // set stiatci path
 
 
