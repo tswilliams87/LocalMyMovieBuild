@@ -130,15 +130,14 @@ app.post('/users/add',function(req,res){
 		if (err) {
 
 			console.log(err + ' Database error ')
-		}
+		} 
 		//res.redirect is not found
-		//res.redirect('http://localhost');
+		
 
-
-		//res.redirect('/')
 
 
 	});
+	res.redirect('/');
 	console.log('success database written')
 
 	}
