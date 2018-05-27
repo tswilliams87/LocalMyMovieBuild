@@ -1,7 +1,8 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
-
+var mongojs = require('mongojs')
+var db = mongojs('customerapp', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
 
