@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Errror: no test specified\" && exit 1"
+    "test": "echo \"Errrorr: no test specified\" && exit 1"
   },
   "author": "todd williams",
   "license": "ISC"
