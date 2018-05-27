@@ -131,12 +131,14 @@ app.post('/users/add',function(req,res){
 
 			console.log(err + ' Database error ')
 		} 
-		//res.redirect is not found
+		
 		
 
 
 
 	});
+	//res.redirect did not work inside the database object.  moved it out one layer 
+	
 	res.redirect('/');
 	console.log('success database written')
 
