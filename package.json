@@ -12,8 +12,8 @@
   },
   "scripts": {
     "start": "node app.js"
- //   "test": "echo \"Errrorr: no test specified\" && exit 1"
   },
   "author": "todd williams",
   "license": "ISC"
 }
+ //   "test": "echo \"Errrorr: no test specified\" && exit 1"
