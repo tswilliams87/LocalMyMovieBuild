@@ -11,9 +11,9 @@
     "mongojs": "^2.5.0"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
   },
   "author": "todd williams",
   "license": "ISC"
 }
- //   "test": "echo \"Errrorr: no test specified\" && exit 1"
+ 
