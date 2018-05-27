@@ -132,7 +132,7 @@ app.post('/users/add',function(req,res){
 			console.log(err + ' Database error ')
 		}
 		//res.redirect is not found
-		res.redirect('http://localhost');
+		//res.redirect('http://localhost');
 
 
 		//res.redirect('/')
