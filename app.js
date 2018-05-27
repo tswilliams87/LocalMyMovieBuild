@@ -1,4 +1,3 @@
-
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
@@ -72,18 +71,13 @@ app.use(function(req,res,next){
 
 app.get('/',function(req,res){
 	 
-//reaching into database and rendering docs as well. 
-	 db.users.find(function(err, docs){
-	 	console.log(docs)
-	
+
 	res.render('index', {
 		//passing variables into the index.ejs file
 		title :'customers',
 		//when using uses you will have to un comment the array above for users
-		users: docs
-	})
-	 	// areays
-	 });
+		//users: users
+	});
 });
 
 const { check } = require('express-validator/check');
@@ -118,19 +112,7 @@ app.post('/users/add',function(req,res){
 
 
 	}
-	db.users.insert(newUser, function(err,res){
-		if (err) {
-
-			console.log(err + ' Database error ')
-		} 
-		//res.redirect is not found
-		
-
-
-
-	});
-	res.redirect('/');
-	console.log('success database written')
+	console.log('success')
 
 	}
 
@@ -139,7 +121,7 @@ app.post('/users/add',function(req,res){
 	
 
 	console.log(newUser)
-});
+})
 // set stiatci path
 
 
