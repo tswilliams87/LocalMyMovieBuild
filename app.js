@@ -1,3 +1,4 @@
+
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
@@ -32,23 +33,17 @@ app.use(express.static(path.join(__dirname,'public')))
 //array to stuff people or movies into
 /*
 var people = [{
-
-
 	name:'Wes', 
 	age: 30
 },
 {
-
 	name:'Todd',
 	age: 31
 }
-
-
 ]
 */
 
 /*
-
 could be later used to validate different users
 var users = [
 	{
@@ -56,16 +51,13 @@ var users = [
 		first_name: 'Wes',
 		last_name: 'Curtis',
 		email: 'wcurt@things.com',
-
 	},
 	{
 		id: 2,
 		first_name: 'Todd',
 		last_name: 'W',
 		email: 'tswilliams87@gmail.com',
-
 	}
-
 ]
 */
 
@@ -80,13 +72,18 @@ app.use(function(req,res,next){
 
 app.get('/',function(req,res){
 	 
-
+//reaching into database and rendering docs as well. 
+	 db.users.find(function(err, docs){
+	 	console.log(docs)
+	
 	res.render('index', {
 		//passing variables into the index.ejs file
 		title :'customers',
 		//when using uses you will have to un comment the array above for users
-		//users: users
-	});
+		users: docs
+	})
+	 	// areays
+	 });
 });
 
 const { check } = require('express-validator/check');
@@ -121,7 +118,19 @@ app.post('/users/add',function(req,res){
 
 
 	}
-	console.log('success')
+	db.users.insert(newUser, function(err,res){
+		if (err) {
+
+			console.log(err + ' Database error ')
+		} 
+		//res.redirect is not found
+		
+
+
+
+	});
+	res.redirect('/');
+	console.log('success database written')
 
 	}
 
@@ -130,7 +139,7 @@ app.post('/users/add',function(req,res){
 	
 
 	console.log(newUser)
-})
+});
 // set stiatci path
 
 
@@ -140,38 +149,23 @@ app.listen(3000 , function(){
 });
 
 /*
-
-
 First build.  keeping original
 const http = require('http');
 const fs = require('fs')
 const hostname = '127.0.0.1'
 const port = 3000
-
 fs.readFile('index.html', (err, html) => {
-
 	if(err){
-
 		throw err;
-
 	}
 	const server = http.createServer((req, res) =>{
 		res.statusCode = 200
 		res.setHeader('Content-type' , 'text/html');
 		res.write(html)
 		res.end()
-
 });
-
 server.listen(port, hostname, () => {
 	console.log('Server Started on port: ' + port)
-
-
-
 });
-
-
 });
-
-
 */
