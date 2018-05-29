@@ -27,11 +27,21 @@
 		<input type="text" name="zipCode">
 		<br>
 		<label> My email</label><br>
-		<input type="text" name="email"> -<a href="#">Delete</a>
+		<input type="text" name="email">
 		<br><br>
 		<input type="submit" value="Submit">
 
 		<h1><%= title %> </h1>
+		<ul>
+		<% users.forEach(function(user){ %>
+			<li><%= user.myMovie %> <%= user.zipCode %> - <a href="#">Delete</a></li>
+
+
+<% }) %>
+</ul>
+
+
+
 		
 
 <% include partials/footer %>

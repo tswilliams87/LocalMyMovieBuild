@@ -68,9 +68,10 @@ var users = [
 
 ]
 */
-
+//global vars. need middleware
 app.use(function(req,res,next){
 	res.locals.errors = null
+	res.locals.users = null
 	next();
 
 
@@ -81,15 +82,15 @@ app.use(function(req,res,next){
 app.get('/',function(req,res){
 	 
 //reaching into database and rendering docs as well. 
-	 db.users.find(function(err, docs){
-	 	console.log(docs)
-	
-	res.render('index', {
+	db.users.find(function(err, docs){
+	 	console.log(docs);
+		res.render('index', {
 		//passing variables into the index.ejs file
-		title :'customers',
+			title :'Customers',
 		//when using uses you will have to un comment the array above for users
-		users: docs
-	})
+			users : docs
+
+	});
 	 	// areays
 	 });
 });
@@ -138,8 +139,9 @@ app.post('/users/add',function(req,res){
 
 	});
 	//res.redirect did not work inside the database object.  moved it out one layer 
-	
+
 	res.redirect('/');
+	
 	console.log('success database written')
 
 	}
