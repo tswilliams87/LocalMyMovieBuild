@@ -1,8 +1,11 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
-var mongojs = require('mongojs')
-var db = mongojs('10.129.0.67', ['users','movies1'])
+//var mongojs = require('mongojs')
+var databaseUrl = "MONGODB_USER:MONGODB_PASSWORD@MONGODB_URL/mongodb"
+var colletions = ['users', 'movies1']
+var db = require("mongojs").connect(databaseUrl, collections);
+//var db = mongojs('10.129.0.67', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
 
@@ -29,7 +32,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(express.static(path.join(__dirname,'public')))
 
-//2.0 start
+/*.0 start
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
@@ -54,7 +57,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
   }
 }
-//2.0 stop
+/*2.0 stop
 /*NEW DB HEAD sdfmsdv
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
