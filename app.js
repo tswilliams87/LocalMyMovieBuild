@@ -118,7 +118,7 @@ app.post('/users/add',function(req,res){
 		testError.push(errors[i].msg.toString())
 	
 	}
-	console.log(testError)
+	//console.log(testError)
 	//var errors = validationResult(req)
 	//req.expressValidator.
 	//console.log('errors: '+ errors)
@@ -126,9 +126,8 @@ app.post('/users/add',function(req,res){
 	//NEEDS FURTHER WORK
 	if (errors) {
 		res.render('index', {
-			title: 'Movies',
-			myMovie : testError[0]
-			zipCode: errors
+			title: 'Please resolve errors and resubmit',
+			errors:  testError
 		})
 
 
