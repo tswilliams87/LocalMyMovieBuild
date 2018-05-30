@@ -135,7 +135,7 @@ app.post('/users/add',function(req,res){
 
 
 
-		console.log('Did not pass VAlidation tests')
+		console.log('Did not pass Validation tests')
 
 
 
@@ -171,14 +171,22 @@ app.post('/users/add',function(req,res){
 
 	console.log(newUser)
 });
-// set stiatci path
+
+/*
+// not working but just wanted to test
+app.post('#',function(req,res){
+	db.users.delete(newUser)
+	console.log('Users deleted')
 
 
+
+
+})
 
 app.listen(3000 , function(){
 	console.log('Server started on 3000....')
 });
-
+*/
 /*
 
 
