@@ -82,11 +82,13 @@ app.use(function(req,res,next){
 app.get('/',function(req,res){
 	 
 //reaching into database and rendering docs as well. 
-	db.users.find(function(err, docs){
-	 	console.log(docs);
+//you can look up collections which have to be set up top in the variables.
+//show collections in mongoDB shows you all the collections
+	db.movies1.find(function(err, docs){
+	 	//console.log(docs);
 		res.render('index', {
 		//passing variables into the index.ejs file
-			title :'Customers',
+			title :'Movies Recently matched',
 		//when using uses you will have to un comment the array above for users
 			users : docs
 
@@ -95,18 +97,24 @@ app.get('/',function(req,res){
 	 });
 });
 
-const { check } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
 app.post('/users/add',function(req,res){
 	
  	//req.checkBody('movie','Required').exists
+	console.log(check('email').isEmail())
+	//check('myMovie').isLength({ min:1})
+
+
+	//var errors = validationResult(req)
+	//req.expressValidator.
+	//console.log('errors: '+ errors)
 	
-	var errors = check('myMovie','required').isEmpty()
-	//console.log(errors.exists)
 	//NEEDS FURTHER WORK
 	if (req.body.errors) {
 		res.render('index', {
 			title: 'Movies',
-			myMovie : 'error'
+			myMovie : 'error',
+			users: 'errors'
 		})
 
 
@@ -119,7 +127,8 @@ app.post('/users/add',function(req,res){
 
 
 	}else {
-
+		// build the JSON object from the request form
+		//will push to mongo
 	var newUser = {
 		myMovie: req.body.myMovie,
 		zipCode: req.body.zipCode,
@@ -127,16 +136,13 @@ app.post('/users/add',function(req,res){
 
 
 	}
-	db.users.insert(newUser, function(err,res){
+	// pushing data from request form into mongo, Defined objects above
+	db.movies1.insert(newUser, function(err,res){
 		if (err) {
 
 			console.log(err + ' Database error ')
 		} 
 		
-		
-
-
-
 	});
 	//res.redirect did not work inside the database object.  moved it out one layer 
 

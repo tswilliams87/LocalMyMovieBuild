@@ -32,9 +32,10 @@
 		<input type="submit" value="Submit">
 
 		<h1><%= title %> </h1>
+		
 		<ul>
 		<% users.forEach(function(user){ %>
-			<li><%= user.myMovie %> <%= user.zipCode %> - <a href="#">Delete</a></li>
+			<li><%= user.myMovie %> <%= user.zipCode %>  <%= user.email %> - <a href="#">Delete</a></li>
 
 
 <% }) %>
