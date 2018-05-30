@@ -32,7 +32,9 @@
 		<input type="submit" value="Submit">
 
 		<h1><%= title %> </h1>
-		
+		<h1><%= myMovie %> </h1>
+		<h1><%= zipCode %> </h1>
+		<% if(users != null){ %>
 		<ul>
 		<% users.forEach(function(user){ %>
 			<li><%= user.myMovie %> <%= user.zipCode %>  <%= user.email %> - <a href="#">Delete</a></li>
@@ -41,7 +43,7 @@
 <% }) %>
 </ul>
 
-
+<% } %>
 
 		
 

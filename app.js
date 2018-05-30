@@ -26,6 +26,7 @@ app.set('views', path.join(__dirname,'views'));
 //body parser middle ware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(expressValidator());
 
 app.use(express.static(path.join(__dirname,'public')))
 
@@ -72,6 +73,8 @@ var users = [
 app.use(function(req,res,next){
 	res.locals.errors = null
 	res.locals.users = null
+	res.locals.myMovie = null
+	res.locals.zipCode = null
 	next();
 
 
@@ -88,7 +91,7 @@ app.get('/',function(req,res){
 	 	//console.log(docs);
 		res.render('index', {
 		//passing variables into the index.ejs file
-			title :'Movies Recently matched',
+			title :'Movies Recently Matched',
 		//when using uses you will have to un comment the array above for users
 			users : docs
 
@@ -101,20 +104,31 @@ const { check, validationResult } = require('express-validator/check');
 app.post('/users/add',function(req,res){
 	
  	//req.checkBody('movie','Required').exists
-	console.log(check('email').isEmail())
+	console.log(req.body.email)
 	//check('myMovie').isLength({ min:1})
+	//var errors = req.check('email', 'not an email address').isEmail()
+	// have to call req.check on the object and then run validation against
+	var zip = req.check('email', 'not an email address').isEmail();
+	var email = req.check('zipCode','Not a valid zipCode').isLength(5)
+	var errors = req.validationErrors();
 
-
+	var testError = []
+	for (var i = errors.length - 1; i >= 0; i--) {
+		console.log(errors[i].msg + i)
+		testError.push(errors[i].msg.toString())
+	
+	}
+	console.log(testError)
 	//var errors = validationResult(req)
 	//req.expressValidator.
 	//console.log('errors: '+ errors)
 	
 	//NEEDS FURTHER WORK
-	if (req.body.errors) {
+	if (errors) {
 		res.render('index', {
 			title: 'Movies',
-			myMovie : 'error',
-			users: 'errors'
+			myMovie : testError[0]
+			zipCode: errors
 		})
 
 
@@ -122,7 +136,7 @@ app.post('/users/add',function(req,res){
 
 
 
-		console.log('Failed less than 1 charecter')
+		console.log('Did not pass VAlidation tests')
 
 
 
