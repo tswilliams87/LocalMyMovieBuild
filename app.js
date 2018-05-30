@@ -2,7 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
 var mongojs = require('mongojs')
-var db = mongojs('10.129.0.67/mongodb', ['users','movies1'])
+var db = mongojs('10.129.0.67', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
 
