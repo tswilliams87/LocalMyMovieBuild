@@ -1,11 +1,9 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
-//var mongojs = require('mongojs')
-var databaseUrl = "mongodb"; "MONGODB_USER:MONGODB_PASSWORD@MONGODB_URL/mongodb"
-var collections = ['users', 'movies1']
-var db = require("mongojs").connect(databaseUrl, collections);
-//var db = mongojs('10.129.0.67', ['users','movies1'])
+var mongojs = require('mongojs')
+//var collections = ['users', 'movies1']
+var db = mongojs('10.129.0.67', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
 
