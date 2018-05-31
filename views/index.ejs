@@ -37,7 +37,7 @@
 		<% if(users != null){ %>
 		<ul>
 		<% users.forEach(function(user){ %>
-			<li><%= user.myMovie %> <%= user.zipCode %>  <%= user.email %> - <a href="#" classs="deleteUser">Delete</a></li>
+			<li><%= user.myMovie %> <%= user.zipCode %>  <%= user.email %> - <a href="#" class="deleteUser" data-id="<%= user._id %>">Delete</a></li>
 
 
 <% }) %>

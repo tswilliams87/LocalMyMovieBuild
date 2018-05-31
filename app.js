@@ -5,7 +5,7 @@ var mongojs = require('mongojs')
 var db = mongojs('customerapp', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
-
+var ObjectId = mongojs.ObjectId
 const { body } = require('express-validator/check');
 var app = express();
 
@@ -172,17 +172,19 @@ app.post('/users/add',function(req,res){
 	console.log(newUser)
 });
 
-/*
-// not working but just wanted to test
-app.post('#',function(req,res){
-	db.users.delete(newUser)
-	console.log('Users deleted')
-
+app.delete('/users/delete/:id',function(req,res){
+	//console.log(req.params.id)
+	db.movies1.remove({_id: ObjectId(req.params.id)},function(err, result){
+		if (err) {
+			console.log(err)
+		}else{
+			res.redirect('/')
+		}
+	})
 
 
 
 })
-*/
 app.listen(3000 , function(){
 	console.log('Server started on 3000....')
 });
