@@ -16,7 +16,7 @@ function deleteUser(){
 		$.ajax({
 			type:'DELETE',
 			url:'/users/delete/' +$(this).data('id')
-		}).done(function(response){
+		}).done(function(res){
 				window.location.replace('/')
 
 

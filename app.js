@@ -185,6 +185,17 @@ app.delete('/users/delete/:id',function(req,res){
 
 
 })
+//Adding a reciever.  This is for future state. I was playing with it 
+//for testing api's to Jira
+
+
+app.post('/Jira',function(req,res){
+	console.log('received the request' + req.body.tes)
+	res.render('index')
+
+
+
+})
 app.listen(3000 , function(){
 	console.log('Server started on 3000....')
 });
