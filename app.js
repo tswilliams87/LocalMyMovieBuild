@@ -8,6 +8,7 @@ var path = require('path');
 //var db = mongojs('10.129.0.67', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
+//test
 
 const { body } = require('express-validator/check');
 var app = express();
