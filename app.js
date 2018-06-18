@@ -1,9 +1,11 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var path = require('path');
-var mongojs = require('mongojs')
-//var collections = ['users', 'movies1']
-var db = mongojs('10.129.0.67', ['users','movies1'])
+//var mongojs = require('mongojs')
+var databaseUrl = "MONGODB_USER:MONGODB_PASSWORD@MONGODB_URL/mongodb"
+var colletions = ['users', 'movies1']
+var db = require("mongojs").connect(databaseUrl, collections);
+//var db = mongojs('10.129.0.67', ['users','movies1'])
 var expressValidator = require('express-validator')
 //Global vars 
 
@@ -14,7 +16,7 @@ var logger = function(req, res, next){
 	console.log('Logging...')
 	next();
 
-
+//test2
 
 }
 
@@ -27,10 +29,117 @@ app.set('views', path.join(__dirname,'views'));
 //body parser middle ware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(expressValidator());
 
 app.use(express.static(path.join(__dirname,'public')))
 
+/*.0 start
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
+    mongoURLLabel = "";
+if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+  var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
+      mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
+      mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
+      mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
+      mongoPassword = process.env[mongoServiceName + '_PASSWORD']
+      mongoUser = process.env[mongoServiceName + '_USER'];
+  if (mongoHost && mongoPort && mongoDatabase) {
+    mongoURLLabel = mongoURL = 'mongodb://';
+    if (mongoUser && mongoPassword) {
+      mongoURL += mongoUser + ':' + mongoPassword + '@';
+    }
+    // Provide UI label that excludes user id and pw
+    mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
+    mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
+  }
+}
+/*2.0 stop
+/*NEW DB HEAD sdfmsdv
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
+    mongoURLLabel = "";
+if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
+  var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
+      mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
+      mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
+      mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
+      mongoPassword = process.env[mongoServiceName + '_PASSWORD']
+      mongoUser = process.env[mongoServiceName + '_USER'];
+  if (mongoHost && mongoPort && mongoDatabase) {
+    mongoURLLabel = mongoURL = 'mongodb://';
+    if (mongoUser && mongoPassword) {
+      mongoURL += mongoUser + ':' + mongoPassword + '@';
+    }
+    // Provide UI label that excludes user id and pw
+    mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
+    mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
+  }
+}
+var db = null,
+    dbDetails = new Object();
+var initDb = function(callback) {
+  if (mongoURL == null) return;
+  var mongodb = require('mongodb');
+  if (mongodb == null) return;
+  mongodb.connect(mongoURL, function(err, conn) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    db = conn;
+    dbDetails.databaseName = db.databaseName;
+    dbDetails.url = mongoURLLabel;
+    dbDetails.type = 'MongoDB';
+    console.log('Connected to MongoDB at: %s', mongoURL);
+  });
+};
+app.get('/', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('counts');
+    // Create a document with request IP and current time of request
+    col.insert({ip: req.ip, date: Date.now()});
+    col.count(function(err, count){
+      if (err) {
+        console.log('Error running count. Message:\n'+err);
+      }
+      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
+    });
+  } else {
+    res.render('index.html', { pageCountMessage : null});
+  }
+});
+app.get('/pagecount', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    db.collection('counts').count(function(err, count ){
+      res.send('{ pageCount: ' + count + '}');
+    });
+  } else {
+    res.send('{ pageCount: -1 }');
+  }
+});
+// error handling
+app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500).send('Something bad happened!');
+});
+initDb(function(err){
+  console.log('Error connecting to Mongo. Message:\n'+err);
+});
+app.listen(port, ip);
+console.log('Server running on http://%s:%s', ip, port);
+/*NEW DB FOOTER
 //array to stuff people or movies into
 /*
 var people = [{
@@ -61,12 +170,9 @@ var users = [
 	}
 ]
 */
-//global vars. need middleware
+
 app.use(function(req,res,next){
 	res.locals.errors = null
-	res.locals.users = null
-	res.locals.myMovie = null
-	res.locals.zipCode = null
 	next();
 
 
@@ -76,50 +182,27 @@ app.use(function(req,res,next){
 
 app.get('/',function(req,res){
 	 
-//reaching into database and rendering docs as well. 
-//you can look up collections which have to be set up top in the variables.
-//show collections in mongoDB shows you all the collections
-	db.movies1.find(function(err, docs){
-	 	//console.log(docs);
-		res.render('index', {
-		//passing variables into the index.ejs file
-			title :'Movies Recently Matched',
-		//when using uses you will have to un comment the array above for users
-			users : docs
 
+	res.render('index', {
+		//passing variables into the index.ejs file
+		title :'customers',
+		//when using uses you will have to un comment the array above for users
+		//users: users
 	});
-	 	// areays
-	 });
 });
 
-const { check, validationResult } = require('express-validator/check');
+const { check } = require('express-validator/check');
 app.post('/users/add',function(req,res){
 	
  	//req.checkBody('movie','Required').exists
-	console.log(req.body.email)
-	//check('myMovie').isLength({ min:1})
-	//var errors = req.check('email', 'not an email address').isEmail()
-	// have to call req.check on the object and then run validation against
-	var zip = req.check('email', 'not an email address').isEmail();
-	var email = req.check('zipCode','Not a valid zipCode').isLength(5)
-	var errors = req.validationErrors();
-
-	var testError = []
-	for (var i = errors.length - 1; i >= 0; i--) {
-		console.log(errors[i].msg + i)
-		testError.push(errors[i].msg.toString())
 	
-	}
-	//console.log(testError)
-	//var errors = validationResult(req)
-	//req.expressValidator.
-	//console.log('errors: '+ errors)
-	
+	var errors = check('myMovie','required').isEmpty()
+	//console.log(errors.exists)
 	//NEEDS FURTHER WORK
-	if (errors) {
+	if (req.body.errors) {
 		res.render('index', {
-			title: 'Please resolve errors and resubmit',
-			errors:  testError
+			title: 'Movies',
+			myMovie : 'error'
 		})
 
 
@@ -127,13 +210,12 @@ app.post('/users/add',function(req,res){
 
 
 
-		console.log('Did not pass Validation tests')
+		console.log('Failed less than 1 charecter')
 
 
 
 	}else {
-		// build the JSON object from the request form
-		//will push to mongo
+
 	var newUser = {
 		myMovie: req.body.myMovie,
 		zipCode: req.body.zipCode,
@@ -141,19 +223,7 @@ app.post('/users/add',function(req,res){
 
 
 	}
-	// pushing data from request form into mongo, Defined objects above
-	db.movies1.insert(newUser, function(err,res){
-		if (err) {
-
-			console.log(err + ' Database error ')
-		} 
-		
-	});
-	//res.redirect did not work inside the database object.  moved it out one layer 
-
-	res.redirect('/');
-	
-	console.log('success database written')
+	console.log('success')
 
 	}
 
@@ -162,18 +232,15 @@ app.post('/users/add',function(req,res){
 	
 
 	console.log(newUser)
-});
-
-/*
-// not working but just wanted to test
-app.post('#',function(req,res){
-	db.users.delete(newUser)
-	console.log('Users deleted')
 })
+// set stiatci path
+
+
+
 app.listen(3000 , function(){
 	console.log('Server started on 3000....')
 });
-*/
+
 /*
 First build.  keeping original
 const http = require('http');
